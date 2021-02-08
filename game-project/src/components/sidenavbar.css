@@ -1,8 +1,7 @@
-.side-nav{
+.side-nav {
     display: flex;
     flex-direction: column;
     background-color: rgb(53, 53, 53);
-    align-items: center;
     color: white;
-    width: 10%;
+    width: 28%;
 }

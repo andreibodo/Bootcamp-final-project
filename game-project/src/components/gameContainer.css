@@ -1,0 +1,22 @@
+.game-container{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    background-color: grey;
+}
+.each-game-preview{
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: white;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.each-game-preview>img{
+    width: 300px;
+    height: 150px;
+}
