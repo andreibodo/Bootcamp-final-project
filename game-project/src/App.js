@@ -9,9 +9,12 @@ export const GlobalContext = createContext({});
 function App() {
 
   const [dataPath, setDataPath] = useState("https://api.rawg.io/api/games");
+  const [selectedGamePath,setSelectedGamePath]=useState("https://api.rawg.io/api/games/1");
+  const [selectedGameImages,setSelectedGameImages]=useState([]);
   const [gamesArray, setGamesArray] = useState([]);
   let nextPage="";
   let previousPage="";
+  const [selectedGame,setSelectedGame] = useState({});
 
   useEffect(() => {
 
@@ -38,8 +41,26 @@ function App() {
 
   }, [dataPath]);
 
+  useEffect(() => {
+
+    fetch(selectedGamePath)
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("Ha ido algo mal...");
+        }
+        return response.json();
+      })
+      .then(data => {
+        setSelectedGame(data);
+      })
+      .catch(error => alert("Algo ha ido mal"));
+
+  }, [selectedGamePath]);
+
   return (
-    <GlobalContext.Provider value={{dataPath,setDataPath,gamesArray,setGamesArray,nextPage,previousPage}}>
+    <GlobalContext.Provider value={{selectedGame,setSelectedGame,dataPath,setDataPath,gamesArray,
+    setGamesArray,nextPage,previousPage,selectedGamePath,setSelectedGamePath,selectedGameImages,
+    setSelectedGameImages}}>
       <div className="App">
         <Navbar/>
         <div className="main-content">

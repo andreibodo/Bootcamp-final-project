@@ -1,0 +1,50 @@
+.image-description{
+    display: flex;
+    flex-direction: row;
+}
+.image-description>div{
+    padding-left: 1em;
+}
+.main-poster{
+    width: 900px;
+    height: 600px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.name-rating{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+.rating{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.rating>img{
+    width: 100px;
+    height: 50px;
+    margin-right: 1em;
+}
+.good-rating{
+    background-color: green;
+    padding: 1em;
+    border-bottom-left-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.bad-rating{
+    background-color: tomato;
+    padding: 1em;
+    border-bottom-left-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.normal-rating{
+    background-color: orange;
+    padding: 1em;
+    border-bottom-left-radius: 15px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.game-description{
+    display: flex;
+    flex-direction: column;
+}

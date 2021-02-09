@@ -1,15 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../App';
 import Dialog from '@material-ui/core/Dialog';
+import GameDescription from './gameDescription';
 import './gameContainer.css';
 
 export default function GameContainer() {
-    const { gamesArray } = useContext(GlobalContext);
-    let selectedGameId = 0;
-    const [selectedGame,setSelectedGame] = useState([])
+    const { gamesArray,setSelectedGamePath,setSelectedGameImages} = useContext(GlobalContext);
     const [open, setOpen] = useState(false);
     const selectGame = (game) => {
-        setSelectedGame(game);
+        setSelectedGamePath(`https://api.rawg.io/api/games/${game.id}`);
+        setSelectedGameImages(game.short_screenshots);
         setOpen(true);
     };
     const handleClose = () => {
@@ -28,9 +28,7 @@ export default function GameContainer() {
                 })}
             </div>
             <Dialog fullWidth={true} maxWidth={'xl'} onClose={handleClose} open={open}>
-                        <div className="selected-game">
-                            <img src={`${selectedGame.background_image}`} alt="poster" />
-                        </div>
+                        <GameDescription/>
             </Dialog>
         </>
     )
