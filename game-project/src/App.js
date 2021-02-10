@@ -9,12 +9,15 @@ export const GlobalContext = createContext({});
 function App() {
 
   const [dataPath, setDataPath] = useState("https://api.rawg.io/api/games");
-  const [selectedGamePath,setSelectedGamePath]=useState("https://api.rawg.io/api/games/1");
-  const [selectedGameImages,setSelectedGameImages]=useState([]);
+  const [selectedGamePath, setSelectedGamePath] = useState("https://api.rawg.io/api/games/3498");
+  const [selectedGameImages, setSelectedGameImages] = useState([]);
   const [gamesArray, setGamesArray] = useState([]);
-  let nextPage="";
-  let previousPage="";
-  const [selectedGame,setSelectedGame] = useState({});
+  const [nextPage,setNextPage] = useState("");
+  const [previousPage,setPreviousPage] =useState ("");
+  const [selectedGame, setSelectedGame] = useState({});
+  const [gameClip, setGameClip] = useState("");
+  const [requirements, setRequirements] = useState({});
+  const [dlcArray,setDlcArray]=useState([]);
 
   useEffect(() => {
 
@@ -26,12 +29,12 @@ function App() {
         return response.json();
       })
       .then(data => {
-        if(data.next!==null){
-          nextPage=data.next;
+        if (data.next !== null) {
+          setNextPage(data.next);
         };
 
-        if(data.previous!==null){
-          previousPage=data.previous;
+        if (data.previous !== null) {
+          setPreviousPage(data.previous);
         };
 
         setGamesArray(data.results);
@@ -51,21 +54,56 @@ function App() {
         return response.json();
       })
       .then(data => {
+        setDlcArray([]);
+
         setSelectedGame(data);
+        setGameClip(data.clip.clip);
+        setRequirements(data.platforms[0].requirements);
+        /* ******THIS SECTION IS ON HOLD FOR NOW****
+        DLC ERROR DESCRIPTION: 1 delay on each game, when pressed another game it gets the dlcs
+        from the previous game POSIBLE CAUSES: too many fetch nested, promise problems API PROBLEM: too many URLS
+        to get the description of a game, when making the database probably this problem will solve itself having 
+        th dlcs in the same game or relationed */
+        /* fetch(`https://api.rawg.io/api/games/${data.id}/additions`)
+          .then(response => {
+            if (!response.ok) {
+              throw new Error("Ha ido algo mal...");
+            }
+            return response.json();
+          })
+          .then(dlcs => {
+            dlcs.results.forEach(value=>{
+              fetch(`https://api.rawg.io/api/games/${value.id}`)
+              .then(response => {
+                if (!response.ok) {
+                  throw new Error("Ha ido algo mal...");
+                }
+                return response.json();
+              })
+              .then(dlc=>{
+                setDlcArray(dlcArray=>[...dlcArray,dlc]);
+                console.log(dlcArray);
+              })
+              .catch(error => alert("Something went wrong getting each DLC"));
+            })
+          })
+          .catch(error => alert("Something went wrong getting the DLC's")); */
       })
-      .catch(error => alert("Algo ha ido mal"));
+      .catch(error => alert("Somethig went wrong getting the game"));
 
   }, [selectedGamePath]);
 
   return (
-    <GlobalContext.Provider value={{selectedGame,setSelectedGame,dataPath,setDataPath,gamesArray,
-    setGamesArray,nextPage,previousPage,selectedGamePath,setSelectedGamePath,selectedGameImages,
-    setSelectedGameImages}}>
+    <GlobalContext.Provider value={{
+      selectedGame, setSelectedGame, dataPath, setDataPath, gamesArray,
+      setGamesArray, nextPage, previousPage, selectedGamePath, setSelectedGamePath, selectedGameImages,
+      setSelectedGameImages, gameClip, requirements,dlcArray
+    }}>
       <div className="App">
-        <Navbar/>
+        <Navbar />
         <div className="main-content">
-          <Sidenavbar/>
-          <GameContainer/>
+          <Sidenavbar />
+          <GameContainer />
         </div>
       </div>
     </GlobalContext.Provider>

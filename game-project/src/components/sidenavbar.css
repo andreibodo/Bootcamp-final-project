@@ -1,7 +1,35 @@
 .side-nav {
+    padding: .4em;
+    padding-top: 1em;
     display: flex;
     flex-direction: column;
     background-color: rgb(53, 53, 53);
     color: white;
-    width: 28%;
+    width: 36em;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+.user-name{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: .3em;
+}
+.avatar{
+    width: 60px;
+    border-radius: 30px;
+    margin-bottom: 1em;
+}
+.options{
+    display: flex;
+    flex-direction: row;
+    transition: color .3s ;
+}
+.options>p{
+    margin-left: .5em;
+}
+.options:hover{
+    color: tomato;
+}
+.icon{
+    font-size:1.4em;
 }

@@ -24,24 +24,42 @@ function TabPanel(props) {
 }
 
 export default function ModalTabs() {
-    const { selectedGameImages } = useContext(GlobalContext);
+
+    const { selectedGameImages, selectedGame,gameClip,requirements } = useContext(GlobalContext);
+
     const [value, setValue] = useState(0);
+
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
+    const pcCheck = () => {
+        let check = false;
+        selectedGame.parent_platforms.forEach((value) => {
+            if (value.platform.name === "PC") {
+                check = true;
+            };
+        });
+        if (check) {
+            return (
+                <Tab label="PC Requirements" />
+            );
+        }
+    };
+
     return (
         <div>
             <div className="modal-nav">
                 <Tabs
                     value={value}
                     indicatorColor="secondary"
-                    textColor="palette.secondary.dark"
                     onChange={handleChange}
                     centered
                 >
                     <Tab label="Images" />
                     <Tab label="Clips" />
-                    <Tab label="Games that may interest you" />
+                    <Tab label="DLC" />
+                    {pcCheck()}
                 </Tabs>
                 <TabPanel value={value} index={0}>
                     <Carousel className="carousel">
@@ -57,6 +75,18 @@ export default function ModalTabs() {
                             );
                         })}
                     </Carousel>
+                </TabPanel>
+                <TabPanel value={value} index={1}>
+                    <video src={gameClip} width="1600" height="700" controls="controls" />
+                </TabPanel>
+                <TabPanel value={value} index={2}>
+                    <h1>ON HOLD</h1>
+                </TabPanel>
+                <TabPanel value={value} index={3}>
+                    <div className="requirements">
+                        <p>{requirements.minimum}</p>
+                        <p>{requirements.recommended}</p>
+                    </div>
                 </TabPanel>
             </div>
         </div>
