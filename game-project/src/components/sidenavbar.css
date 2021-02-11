@@ -26,6 +26,7 @@
 }
 .options>p{
     margin-left: .5em;
+    cursor: pointer;
 }
 .options:hover{
     color: tomato;

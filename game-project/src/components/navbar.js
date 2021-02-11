@@ -10,7 +10,7 @@ export default function Navbar() {
         if(e.target.value===""){
             setDataPath("https://api.rawg.io/api/games");
         }else{
-            setDataPath(`https://api.rawg.io/api/games?search=${e.target.value}`);
+            setDataPath(`https://api.rawg.io/api/games?search=${e.target.value}?ordering=metacritic`);
         }
     }
     return (

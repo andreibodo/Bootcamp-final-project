@@ -3,6 +3,7 @@ import { GlobalContext } from '../App';
 import Dialog from '@material-ui/core/Dialog';
 import GameDescription from './gameDescription';
 import './gameContainer.css';
+import Pagination from './pagination';
 
 export default function GameContainer() {
     const { gamesArray, setSelectedGamePath, setSelectedGameImages } = useContext(GlobalContext);
@@ -16,7 +17,7 @@ export default function GameContainer() {
         setOpen(false);
     }
     return (
-        <>
+        <div className="game-page">
             <div className="game-container">
                 {gamesArray.map(game => {
                     return (
@@ -28,9 +29,10 @@ export default function GameContainer() {
                 })}
             </div>
             <Dialog fullWidth={true} maxWidth={'xl'} onClose={handleClose} open={open}>
-                <button className="close-modal" onClick={()=>setOpen(false)}>x</button>
+                <button className="close-modal" onClick={() => setOpen(false)}>x</button>
                 <GameDescription />
             </Dialog>
-        </>
+            <Pagination />
+        </div>
     )
 }

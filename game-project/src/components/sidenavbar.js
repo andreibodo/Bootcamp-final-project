@@ -4,8 +4,11 @@ import { GiQueenCrown } from 'react-icons/gi';
 import { MdComputer } from 'react-icons/md';
 import { IoGameController, IoLogoPlaystation, IoLogoXbox } from 'react-icons/io5';
 import './sidenavbar.css';
+import { useContext } from 'react';
+import { GlobalContext } from '../App';
 
 export default function Sidenavbar() {
+    const {setDataPath}=useContext(GlobalContext);
     return (
         <div className="side-nav">
             <div className="user-loged-in">
@@ -29,11 +32,11 @@ export default function Sidenavbar() {
                 <hr />
                 <div className="options">
                     <GiQueenCrown className="icon" />
-                    <p>All time top</p>
+                    <p onClick={()=>setDataPath("https://api.rawg.io/api/games?metacritic=80,100")}>All time top</p>
                 </div>
                 <div className="options">
                     <FaCrown className="icon" />
-                    <p>Last year top</p>
+                    <p onClick={()=>setDataPath("https://api.rawg.io/api/games?dates=2020-01-01,2020-12-31")}>Last year top</p>
                 </div>
                 <div className="options"></div>
                 <hr />

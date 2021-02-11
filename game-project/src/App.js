@@ -57,7 +57,11 @@ function App() {
         setDlcArray([]);
 
         setSelectedGame(data);
-        setGameClip(data.clip.clip);
+        if(data.clip!==null){
+          setGameClip(data.clip.clip);
+        }else{
+          setGameClip("");
+        }
         setRequirements(data.platforms[0].requirements);
         /* ******THIS SECTION IS ON HOLD FOR NOW****
         DLC ERROR DESCRIPTION: 1 delay on each game, when pressed another game it gets the dlcs
@@ -106,6 +110,9 @@ function App() {
           <GameContainer />
         </div>
       </div>
+      <footer>
+        <h1>footer</h1>
+      </footer>
     </GlobalContext.Provider>
   );
 }

@@ -50,7 +50,7 @@ export default function GameDescription() {
                 <div>
                     <div className="name-rating">
                         <h1>{selectedGame.name}</h1>
-                        <div className="rating">
+                        <div className={selectedGame.metacritic===null?"no-rating":"rating"}>
                             <img src={metacritic} alt="metacritic" />
                             <div className={setRating()}><h3>{selectedGame.metacritic}</h3></div>
                         </div>
