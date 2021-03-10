@@ -14,11 +14,15 @@ async function getDlcs(array, id) {
             } else {
                 poster = "https://i.stack.imgur.com/y9DpT.jpg";
             }
+            let release="";
+            if(dlc.released!==null){
+                release=dlc.released
+            }
             const dlcObject = {
                 name: dlc.name,
                 description: dlc.description,
                 poster: poster,
-                releaseDate: dlc.released
+                releaseDate: release
             };
             array.push(dlcObject)
 
@@ -56,44 +60,52 @@ async function getGame(array, id, images) {
         })
         .then(game => {
 
-            let imagesArray=[];
-            images.forEach(value=>imagesArray.push(value.image));
-            let platforms=[];
-            game.parent_platforms.forEach(value=>platforms.push(value.platform.name))
-            let minimum="";
-            let recomended="";
-            if(game.platforms[0].platform.name==="PC"){
-                minimum=game.platforms[0].requirements.minimum;
-                recomended=game.platforms[0].requirements.recommended;
+            let imagesArray = [];
+            images.forEach(value => imagesArray.push(value.image));
+            let platforms = [];
+            game.parent_platforms.forEach(value => platforms.push(value.platform.name))
+            let minimum = "PC Minimum: Not specified";
+            let recomended = "PC Recommended: Not specified";
+            if (game.platforms[0].platform.name === "PC") {
+                if(game.platforms[0].requirements.minimum!==undefined){
+                    minimum = game.platforms[0].requirements.minimum;
+                }
+                if( game.platforms[0].requirements.recommended!==undefined){
+                    recomended = game.platforms[0].requirements.recommended;
+                }
             }
-            let genres=[];
-            game.genres.forEach(value=>genres.push(value.name));
+            let genres = [];
+            game.genres.forEach(value => genres.push(value.name));
 
-            let clip="";
-            if(game.clip!==null){
-                clip=game.clip.clip
+            let clip = "";
+            if (game.clip !== null) {
+                clip = game.clip.clip
             }
-            let developers="";
-            if(game.publishers.length!==0){
-                developers=game.publishers[0].name
-            }else{
-                developers=game.developers[0].name
+            let developers = "";
+            if (game.publishers.length !== 0) {
+                developers = game.publishers[0].name
+            } else {
+                developers = game.developers[0].name
+            }
+            metacritic=0;
+            if(game.metacritic!==null){
+                metacritic=game.metacritic;
             }
 
-            let gameObject={
-                name:game.name,
-                description:game.description,
-                poster:game.background_image,
-                images:imagesArray,
-                clip:clip,
-                releaseDate:game.released,
-                platforms:platforms,
-                pcMinimum:minimum,
-                pcRecomended:recomended,
-                genres:genres,
-                developers:developers,
-                metacritic:game.metacritic,
-                dlcs:[]
+            let gameObject = {
+                name: game.name,
+                description: game.description,
+                poster: game.background_image,
+                images: imagesArray,
+                clip: clip,
+                releaseDate: game.released,
+                platforms: platforms,
+                pcMinimum: minimum,
+                pcRecomended: recomended,
+                genres: genres,
+                developers: developers,
+                metacritic:metacritic ,
+                dlcs: []
             }
 
             array.push(gameObject);
@@ -102,7 +114,7 @@ async function getGame(array, id, images) {
 }
 
 
-async function getAllGames(array,page) {
+async function getAllGames(array, page) {
     await fetch(`https://api.rawg.io/api/games?page=${page}`)
         .then(response => {
             if (!response.ok) {
@@ -110,10 +122,10 @@ async function getAllGames(array,page) {
             }
             return response.json();
         })
-        .then(data =>{
-            
-            data.results.forEach(value=>{
-                let game={id:value.id,images:value.short_screenshots};
+        .then(data => {
+
+            data.results.forEach(value => {
+                let game = { id: value.id, images: value.short_screenshots };
                 array.push(game);
             });
         })
@@ -121,30 +133,52 @@ async function getAllGames(array,page) {
 }
 
 
-async function getAndPostGame(){
-    const allGamesArrayRaw=[];
+async function getAndPostGame() {
+    const allGamesArrayRaw = [];
     for (let i = 1; i <= 20; i++) {
-        await getAllGames(allGamesArrayRaw,i);
+        await getAllGames(allGamesArrayRaw, i);
     }
-   
+
 
     console.log(allGamesArrayRaw);
-    
-    const allGamesArray=[];
+
+    const allGamesArray = [];
 
     for (let index = 0; index < allGamesArrayRaw.length; index++) {
-        await getGame(allGamesArray,allGamesArrayRaw[index].id,allGamesArrayRaw[index].images)
-        let dlcArray=[];
-        await getDlcArray(dlcArray,allGamesArrayRaw[index].id);
+        await getGame(allGamesArray, allGamesArrayRaw[index].id, allGamesArrayRaw[index].images)
+        let dlcArray = [];
+        await getDlcArray(dlcArray, allGamesArrayRaw[index].id);
 
         for (let i = 0; i < dlcArray.length; i++) {
-            await getDlcs(allGamesArray[index].dlcs,dlcArray[i])
+            await getDlcs(allGamesArray[index].dlcs, dlcArray[i])
         }
 
-        
+
     }
     console.log(allGamesArray);
+
+
+    const options = {
+        method: 'POST',
+        mode: "cors",
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(allGamesArray)
+    };
+
+    fetch("http://localhost:8888/add", options)
+        .then(response => {
+            return response.json();
+        })
+        .then(data => {
+            console.log("Send OK");
+            console.log(data);
+        })
+        .catch(error => alert(error));
+
 }
 
-getAndPostGame();
+getAndPostGame()
+
 
