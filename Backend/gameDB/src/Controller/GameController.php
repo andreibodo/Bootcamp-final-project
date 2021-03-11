@@ -8,18 +8,81 @@ use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Entity\Game;
 use App\Entity\DLC;
+use App\Repository\GameRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
 class GameController extends AbstractController
 {
+
+    private function serialize($gamesData)
+    {
+        $gamesArray = [];
+
+        foreach ($gamesData as $gameData) {
+            $game = [
+                "id" => $gameData->getId(),
+                "name" => $gameData->getName(),
+                "description" => $gameData->getDescription(),
+                "poster" => $gameData->getPoster(),
+                "images" => $gameData->getImages(),
+                "clip" => $gameData->getClip(),
+                "releaseDate" => $gameData->getReleaseDate(),
+                "platforms" => $gameData->getPlatforms(),
+                "pcMinimum" => $gameData->getPcMinimum(),
+                "pcRecomended" => $gameData->getPcRecomended(),
+                "genres" => $gameData->getGenres(),
+                "developer" => $gameData->getDeveloper(),
+                "metacritic" => $gameData->getMetacriticRating(),
+                "dlcs" => []
+            ];
+
+            foreach ($gameData->getDlcs() as $dlcData) {
+                $dlc = [
+                    "name" => $dlcData->getName(),
+                    "description" => $dlcData->getDescription(),
+                    "poster" => $dlcData->getPoster(),
+                    "releaseDate" => $dlcData->getReleaseDate(),
+                ];
+
+                $game["dlcs"][] = $dlc;
+            }
+
+            $gamesArray[] = $game;
+        }
+
+        return $gamesArray;
+    }
+
+    private function paginate($page, $maxPages, $data)
+    {
+        $prevPage = 1;
+        $nextPage = 20;
+
+        if ($page > 1) {
+            $prevPage = $page - 1;
+        };
+
+        if ($page < $maxPages) {
+            $nextPage = $page + 1;
+        };
+
+        $response = [
+            "nextPage" => $nextPage,
+            "prevPage" => $prevPage,
+            "maxPages" => $maxPages,
+            "results" => $this->serialize($data)
+        ];
+
+        return $response;
+    }
+
     /**
      * @Route("/add", name="add", methods={"POST"})
      */
     public function add(Request $request, EntityManagerInterface $em): Response
     {
         $gamesData = json_decode($request->getContent());
-        /* $data = json_decode(file_get_contents('php://input'), true); */
 
         print_r(($gamesData));
         foreach ($gamesData as $gameData) {
@@ -54,5 +117,71 @@ class GameController extends AbstractController
         }
 
         return new JsonResponse(["ok"]);
+    }
+
+    /**
+     * @Route("/games/{page}", name="games", methods={"GET"})
+     */
+    public function game($page, GameRepository $repo): Response
+    {
+        $skip = 20 * ($page - 1);
+
+        $gamesData = $repo->findBy([], [], 20, $skip);
+
+        return new JsonResponse($this->paginate($page,20,$gamesData));
+    }
+
+    /**
+     * @Route("/best/{page}", name="best", methods={"GET"})
+     */
+    public function best($page, GameRepository $repo): Response
+    {
+        $skip = 20 * ($page - 1);
+
+        $gamesData = $repo->findBy([], ["metacriticRating" => "DESC"], 20, $skip);
+
+        return new JsonResponse($this->paginate($page,20,$gamesData));
+    }
+
+    /**
+     * @Route("/search/{query}", name="search", methods={"GET"})
+     */
+    public function search($query, GameRepository $repo): Response
+    {
+        $gamesData = $repo->search($query);
+
+        return new JsonResponse($this->serialize($gamesData));
+    }
+
+    /**
+     * @Route("/platform/{platform}/{page}", name="platform", methods={"GET"})
+     */
+    public function filterPlatform($page, $platform, GameRepository $repo): Response
+    {
+        $skip = 20 * ($page - 1);
+
+        $maxPages=$repo->ceil(sizeof($repo->filterPlatform($platform, 0,400))/20);
+
+        $gamesData = $repo->filterPlatform($platform, $skip,20);
+
+        return new JsonResponse($this->paginate($page,$maxPages,$gamesData));
+    }
+
+    /**
+     * @Route("/genre/{genre}/{page}", name="genre", methods={"GET"})
+     */
+    public function filterGenre($page, $genre, GameRepository $repo): Response
+    {
+        $skip = 20 * ($page - 1);
+
+        $maxPages=ceil(count($repo->filterPlatform($genre,0,400))/20);
+
+        
+
+        $gamesData = $repo->filterGenre($genre, $skip,20);
+
+        return new Response(print_r($repo->filterGenre($genre, $skip,20)));
+
+        /* return new JsonResponse($this->paginate($page,$maxPages,$gamesData)); */
     }
 }

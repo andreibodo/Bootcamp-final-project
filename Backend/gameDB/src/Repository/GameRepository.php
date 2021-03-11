@@ -19,6 +19,50 @@ class GameRepository extends ServiceEntityRepository
         parent::__construct($registry, Game::class);
     }
 
+    /**
+     * @return Game[] Returns an array of Game objects
+     */
+    public function search($query)
+    {
+        return $this->createQueryBuilder('search')
+            ->andWhere('search.name LIKE :query')
+            ->setParameter('query', "%".$query."%")
+            ->setMaxResults(20)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    /**
+     * @return Game[] Returns an array of Game objects
+     */
+    public function filterPlatform($platform,$offset,$limit)
+    {
+        return $this->createQueryBuilder('filter')
+            ->andWhere('filter.platforms LIKE :platform')
+            ->setParameter('platform', "%".$platform."%")
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+     /**
+     * @return Game[] Returns an array of Game objects
+     */
+    public function filterGenre($genre,$offset,$limit)
+    {
+        return $this->createQueryBuilder('filter')
+            ->andWhere('filter.genres LIKE :genre')
+            ->setParameter('genre', "%".$genre."%")
+            ->setFirstResult($offset)
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
     // /**
     //  * @return Game[] Returns an array of Game objects
     //  */
