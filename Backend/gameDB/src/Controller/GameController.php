@@ -84,7 +84,6 @@ class GameController extends AbstractController
     {
         $gamesData = json_decode($request->getContent());
 
-        print_r(($gamesData));
         foreach ($gamesData as $gameData) {
             $game = new Game;
             $game->setName($gameData->name);
@@ -160,7 +159,7 @@ class GameController extends AbstractController
     {
         $skip = 20 * ($page - 1);
 
-        $maxPages=$repo->ceil(sizeof($repo->filterPlatform($platform, 0,400))/20);
+        $maxPages=ceil(sizeof($repo->filterPlatform($platform, 0,400))/20);
 
         $gamesData = $repo->filterPlatform($platform, $skip,20);
 
@@ -174,14 +173,10 @@ class GameController extends AbstractController
     {
         $skip = 20 * ($page - 1);
 
-        $maxPages=ceil(count($repo->filterPlatform($genre,0,400))/20);
-
-        
+        $maxPages=ceil(sizeof($repo->filterGenre($genre,0,400))/20);
 
         $gamesData = $repo->filterGenre($genre, $skip,20);
 
-        return new Response(print_r($repo->filterGenre($genre, $skip,20)));
-
-        /* return new JsonResponse($this->paginate($page,$maxPages,$gamesData)); */
+        return new JsonResponse($this->paginate($page,$maxPages,$gamesData));
     }
 }
