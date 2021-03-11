@@ -49,9 +49,10 @@ class GameRepository extends ServiceEntityRepository
     }
 
      /**
+      * PHPDoc
      * @return Game[] Returns an array of Game objects
      */
-    public function filterGenre($genre,$offset,$limit)
+    public function filterGenre(string $genre,$offset,$limit)
     {
         return $this->createQueryBuilder('filter')
             ->andWhere('filter.genres LIKE :genre')
