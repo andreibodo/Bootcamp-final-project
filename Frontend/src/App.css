@@ -1,7 +1,21 @@
 .main-content{
     display: flex;
     flex-direction: row;
+    /* display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
+    grid-template-rows: auto;
+    grid-template-areas: "sidebar games games games games"; */
+    
 }
+
+.side-nav{
+    grid-area: sidebar;
+}
+
+.game-page{
+    grid-area: games;
+}
+
 footer{
     background-color: rgb(53, 53, 53);
     color: white;

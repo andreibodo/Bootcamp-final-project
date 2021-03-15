@@ -24,29 +24,18 @@ export default function GameDescription() {
         let names = "";
         array.forEach((value, index) => {
             if (index === 0) {
-                names = value.name;
+                names = value;
             } else {
-                names += `, ${value.name}`;
+                names += `, ${value}`;
             };
         });
         return (names);
-    };
-    const getPlatforms = (array) => {
-        let platforms = "";
-        array.forEach((value, index) => {
-            if (index === 0) {
-                platforms = value.platform.name;
-            } else {
-                platforms += `, ${value.platform.name}`;
-            };
-        });
-        return (platforms);
     };
 
     return (
         <div className="game-description">
             <div className="image-description">
-                <img className="main-poster" src={selectedGame.background_image} alt="" />
+                <img className="main-poster" src={selectedGame.poster} alt="" />
                 <div>
                     <div className="name-rating">
                         <h1>{selectedGame.name}</h1>
@@ -57,10 +46,10 @@ export default function GameDescription() {
                     </div>
                     {parse(selectedGame.description)}
                     <hr />
-                    <p>Developers: {getNames(selectedGame.developers)}</p>
+                    <p>Developers: {selectedGame.developer}</p>
                     <p>Genres: {getNames(selectedGame.genres)}</p>
-                    <p>Platforms available: {getPlatforms(selectedGame.parent_platforms)}</p>
-                    <p>Released on: {selectedGame.released}</p>
+                    <p>Platforms available: {getNames(selectedGame.platforms)}</p>
+                    <p>Released on: {selectedGame.releaseDate}</p>
                 </div>
             </div>
             <ModalTabs />

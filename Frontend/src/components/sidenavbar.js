@@ -32,7 +32,7 @@ export default function Sidenavbar() {
                 <hr />
                 <div className="options">
                     <GiQueenCrown className="icon" />
-                    <p onClick={()=>setDataPath("https://api.rawg.io/api/games?metacritic=80,100")}>All time top</p>
+                    <p onClick={()=>setDataPath("http://localhost:8888/best/1")}>All time top</p>
                 </div>
                 <div className="options">
                     <FaCrown className="icon" />
@@ -44,15 +44,15 @@ export default function Sidenavbar() {
             <div className="sort-platforms">
                 <h4>Platforms</h4>
                 <hr />
-                <div className="options">
+                <div className="options" onClick={()=>setDataPath("http://localhost:8888/platform=PlayStation/1")}>
                     <IoLogoPlaystation className="icon" />
                     <p>Playstation</p>
                 </div>
-                <div className="options">
+                <div className="options" onClick={()=>setDataPath("http://localhost:8888/platform=Xbox/1")}>
                     <IoLogoXbox className="icon" />
                     <p>X Box</p>
                 </div>
-                <div className="options">
+                <div className="options" onClick={()=>setDataPath("http://localhost:8888/platform=PC/1")}>
                     <MdComputer className="icon" />
                     <p>PC</p>
                 </div>
@@ -61,19 +61,19 @@ export default function Sidenavbar() {
             <div className="sort-genres">
                 <h4>Genres</h4>
                 <hr />
-                <div className="options">
+                <div className="options" onClick={()=>setDataPath("http://localhost:8888/genre=Action/1")}>
                     <p>Action</p>
                 </div>
-                <div className="options">
+                <div className="options" onClick={()=>setDataPath("http://localhost:8888/genre=RPG/1")}>
                     <p>RPG</p>
                 </div>
-                <div className="options">
+                <div className="options" onClick={()=>setDataPath("http://localhost:8888/genre=Adventure/1")}>
                     <p>Adventure</p>
                 </div>
-                <div className="options">
+                <div className="options" onClick={()=>setDataPath("http://localhost:8888/genre=Shooter/1")}>
                     <p>Shooter</p>
                 </div>
-                <div className="options">
+                <div className="options" onClick={()=>setDataPath("http://localhost:8888/genre=Strategy/1")}>
                     <p>Strategy</p>
                 </div>
             </div>

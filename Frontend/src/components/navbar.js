@@ -8,9 +8,9 @@ export default function Navbar() {
     const {setDataPath}=useContext(GlobalContext);
     const search=(e)=>{
         if(e.target.value===""){
-            setDataPath("https://api.rawg.io/api/games");
+            setDataPath("http://localhost:8888/games/1");
         }else{
-            setDataPath(`https://api.rawg.io/api/games?search=${e.target.value}?ordering=metacritic`);
+            setDataPath(`http://localhost:8888/search/${e.target.value}`);
         }
     }
     return (
@@ -18,7 +18,7 @@ export default function Navbar() {
             <h2>LOGO</h2>
             <div className="searchfield">
                 <SearchIcon />
-                <input onInput={search} className="search-input" placeholder="Search..." type="text" />
+                <input onChange={search} className="search-input" placeholder="Search..." type="text" />
             </div>
             <div className="user-avatar">
                 <Button variant="contained">Sign in</Button>

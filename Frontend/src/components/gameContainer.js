@@ -6,11 +6,10 @@ import './gameContainer.css';
 import Pagination from './pagination';
 
 export default function GameContainer() {
-    const { gamesArray, setSelectedGamePath, setSelectedGameImages } = useContext(GlobalContext);
+    const { gamesArray,setSelectedGame } = useContext(GlobalContext);
     const [open, setOpen] = useState(false);
     const selectGame = (game) => {
-        setSelectedGamePath(`https://api.rawg.io/api/games/${game.id}`);
-        setSelectedGameImages(game.short_screenshots);
+        setSelectedGame(game);
         setOpen(true);
     };
     const handleClose = () => {
@@ -22,7 +21,7 @@ export default function GameContainer() {
                 {gamesArray.map(game => {
                     return (
                         <div onClick={() => selectGame(game)} key={game.id} className="each-game-preview">
-                            <img src={`${game.background_image}`} alt="poster" />
+                            <img src={`${game.poster}`} alt="poster" />
                             <p>{game.name}</p>
                         </div>
                     );

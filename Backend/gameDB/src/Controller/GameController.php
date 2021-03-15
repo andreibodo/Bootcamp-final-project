@@ -149,11 +149,11 @@ class GameController extends AbstractController
     {
         $gamesData = $repo->search($query);
 
-        return new JsonResponse($this->serialize($gamesData));
+        return new JsonResponse($this->paginate(1,1,$gamesData));
     }
 
     /**
-     * @Route("/platform/{platform}/{page}", name="platform", methods={"GET"})
+     * @Route("/platform={platform}/{page}", name="platform", methods={"GET"})
      */
     public function filterPlatform($page, $platform, GameRepository $repo): Response
     {
@@ -167,7 +167,7 @@ class GameController extends AbstractController
     }
 
     /**
-     * @Route("/genre/{genre}/{page}", name="genre", methods={"GET"})
+     * @Route("/genre={genre}/{page}", name="genre", methods={"GET"})
      */
     public function filterGenre($page, $genre, GameRepository $repo): Response
     {

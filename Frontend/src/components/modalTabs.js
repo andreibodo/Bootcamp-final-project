@@ -4,6 +4,7 @@ import { Box, Button, Paper, Tab, Tabs } from '@material-ui/core';
 import { useContext, useState } from 'react';
 import './modalTabs.css';
 import { GlobalContext } from '../App';
+import parse from 'html-react-parser';
 
 function TabPanel(props) {
     const { value, index, children } = props;
@@ -25,7 +26,7 @@ function TabPanel(props) {
 
 export default function ModalTabs() {
 
-    const { selectedGameImages, selectedGame,gameClip,requirements } = useContext(GlobalContext);
+    const { selectedGame } = useContext(GlobalContext);
 
     const [value, setValue] = useState(0);
 
@@ -35,8 +36,8 @@ export default function ModalTabs() {
 
     const pcCheck = () => {
         let check = false;
-        selectedGame.parent_platforms.forEach((value) => {
-            if (value.platform.name === "PC") {
+        selectedGame.platforms.forEach((value) => {
+            if (value === "PC") {
                 check = true;
             };
         });
@@ -63,12 +64,12 @@ export default function ModalTabs() {
                 </Tabs>
                 <TabPanel value={value} index={0}>
                     <Carousel className="carousel">
-                        {selectedGameImages.map(image => {
+                        {selectedGame.images.map(image => {
                             return (
-                                <Carousel.Item key={image.id} interval={5000}>
+                                <Carousel.Item key={image} interval={5000}>
                                     <img
                                         className="game-images"
-                                        src={image.image}
+                                        src={image}
                                         alt=""
                                     />
                                 </Carousel.Item>
@@ -77,15 +78,31 @@ export default function ModalTabs() {
                     </Carousel>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <video src={gameClip} width="1600" height="700" controls="controls" />
+                    <video src={selectedGame.clip} width="1600" height="700" controls="controls" />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                    <h1>ON HOLD</h1>
+                    <div className="dlcContainer">
+                        {
+                            selectedGame.dlcs.map(value => {
+                                return (
+                                    <div key={value.name} className="eachDlc">
+                                        <div>
+                                            <img src={value.poster} alt="" width="400px" />
+                                        </div>
+                                        <div className="dlcDescription">
+                                            <h3>{value.name}</h3>
+                                            {parse(value.description)}
+                                        </div>
+                                    </div>
+                                );
+                            })
+                        }
+                    </div>
                 </TabPanel>
                 <TabPanel value={value} index={3}>
                     <div className="requirements">
-                        <p>{requirements.minimum}</p>
-                        <p>{requirements.recommended}</p>
+                        <p>{selectedGame.pcMinimum}</p>
+                        <p>{selectedGame.pcRecomended}</p>
                     </div>
                 </TabPanel>
             </div>
