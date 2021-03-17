@@ -50,7 +50,10 @@ function App() {
         </div>
       </div>
       <footer>
-        <h1>footer</h1>
+          <div>
+            <p>	&copy; 2021 <span>R</span>Games</p>
+            <p>Data extracted from: RAWG API</p>
+          </div>
       </footer>
     </GlobalContext.Provider>
   );

@@ -1,10 +1,10 @@
 .main-content{
-    display: flex;
-    flex-direction: row;
-    /* display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr ;
-    grid-template-rows: auto;
-    grid-template-areas: "sidebar games games games games"; */
+    /* display: flex;
+    flex-direction: row; */
+    display: grid;
+    grid-template-columns: .4fr 1fr 1fr 1fr 1fr ;
+    grid-template-areas: "sidebar games games games games";
+    grid-gap: 0;
     
 }
 
@@ -20,7 +20,13 @@ footer{
     background-color: rgb(53, 53, 53);
     color: white;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    height: 5em;
+}
+
+footer>div{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1em;
 }
 
 

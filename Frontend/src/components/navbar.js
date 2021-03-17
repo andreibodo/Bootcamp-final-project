@@ -15,7 +15,7 @@ export default function Navbar() {
     }
     return (
         <nav className="upper-nav">
-            <h2>LOGO</h2>
+            <h2><span>R</span>Games</h2>
             <div className="searchfield">
                 <SearchIcon />
                 <input onChange={search} className="search-input" placeholder="Search..." type="text" />
