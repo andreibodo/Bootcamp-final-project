@@ -1,0 +1,18 @@
+.register{
+    margin: 1em;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.registerForm{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+}
+
+.registerForm>div{
+    margin: 1em;
+}

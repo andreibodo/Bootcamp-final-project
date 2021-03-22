@@ -2,6 +2,7 @@ import React, { useContext } from 'react'
 import { GlobalContext } from '../App'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
+import jwt_decode from "jwt-decode"
 import './login.css'
 
 export default function Login() {
@@ -12,7 +13,28 @@ export default function Login() {
     }
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(data);
+        const options = {
+            method: 'POST',
+            mode: 'cors',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        };
+        fetch("http://localhost:8888/login", options)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("Ha ido algo mal...");
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                localStorage.setItem("token", data.token)
+                console.log(localStorage.getItem("token"));
+                console.log(jwt_decode(data.token));
+            })
+            .catch(error => alert(error));
     }
     return (
         <div className="login">
@@ -27,7 +49,7 @@ export default function Login() {
             </form>
             <div>
                 <p>
-                    <small>Don't have an account yet? Click <span onClick={() => setRegister(true)}>HERE</span> to register.</small>
+                    <small>Don't have an account yet? Click <span className="click" onClick={() => setRegister(true)}>HERE</span> to register.</small>
                 </p>
             </div>
         </div>

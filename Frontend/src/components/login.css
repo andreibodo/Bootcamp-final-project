@@ -16,3 +16,16 @@
     justify-content: center;
     align-items: center;
 }
+
+.login>div>p{
+    margin-top: 1em;
+}
+
+.click{
+    color: tomato;
+}
+
+.click:hover{
+    cursor: pointer;
+    color: rgb(253, 55, 19);
+}

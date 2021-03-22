@@ -8,7 +8,7 @@ import { useContext, useState } from 'react';
 import { GlobalContext } from '../App';
 
 export default function Navbar() {
-    const {setDataPath,register}=useContext(GlobalContext);
+    const {setDataPath,register,setRegister}=useContext(GlobalContext);
     const search=(e)=>{
         if(e.target.value===""){
             setDataPath("http://localhost:8888/games/1");
@@ -20,6 +20,7 @@ export default function Navbar() {
     const [open, setOpen] = useState(false);
     const handleClose = () => {
         setOpen(false);
+        setRegister(false);
     }
 
     const showRegister=()=>{
