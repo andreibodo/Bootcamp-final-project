@@ -13,7 +13,9 @@
 }
 
 .game-page{
+    min-height: 100vh;
     grid-area: games;
+    
 }
 
 footer{

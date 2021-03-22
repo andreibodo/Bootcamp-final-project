@@ -1,6 +1,6 @@
 import Carousel from 'react-bootstrap/Carousel';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Box, Button, Paper, Tab, Tabs } from '@material-ui/core';
+import {Paper, Tab, Tabs } from '@material-ui/core';
 import { useContext, useState } from 'react';
 import './modalTabs.css';
 import { GlobalContext } from '../App';
