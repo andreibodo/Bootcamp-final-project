@@ -8,7 +8,7 @@ import { useContext, useState } from 'react';
 import { GlobalContext } from '../App';
 
 export default function Navbar() {
-    const {setDataPath,register,setRegister}=useContext(GlobalContext);
+    const {setDataPath,register,setRegister,logedIn,setLogedIn}=useContext(GlobalContext);
     const search=(e)=>{
         if(e.target.value===""){
             setDataPath("http://localhost:8888/games/1");
@@ -30,7 +30,7 @@ export default function Navbar() {
             );
         }else{
             return(
-                <Login/>
+                <Login setOpen={setOpen}/>
             );
         }
     }
@@ -43,7 +43,7 @@ export default function Navbar() {
                 <input onChange={search} className="search-input" placeholder="Search..." type="text" />
             </div>
             <div className="user-avatar">
-                <Button onClick={()=>setOpen(true)} variant="contained">Log in</Button>
+                <Button onClick={logedIn?()=>setLogedIn(false):()=>setOpen(true)} variant="contained">{logedIn?"Log out":"Log in"}</Button>
             </div>
             <Dialog maxWidth={'md'} onClose={handleClose} open={open}>
                 {showRegister()}

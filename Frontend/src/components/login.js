@@ -5,8 +5,8 @@ import Button from '@material-ui/core/Button'
 import jwt_decode from "jwt-decode"
 import './login.css'
 
-export default function Login() {
-    const { setRegister } = useContext(GlobalContext);
+export default function Login({setOpen}) {
+    const { setRegister,setLogedIn,setUser } = useContext(GlobalContext);
     let data = {
         username: "",
         password: ""
@@ -24,17 +24,20 @@ export default function Login() {
         fetch("http://localhost:8888/login", options)
             .then(response => {
                 if (!response.ok) {
-                    throw new Error("Ha ido algo mal...");
+                    throw new Error("Wrong username or password");
                 }
                 return response.json();
             })
             .then(data => {
-                console.log(data);
-                localStorage.setItem("token", data.token)
-                console.log(localStorage.getItem("token"));
-                console.log(jwt_decode(data.token));
+                
+                setLogedIn(true);
+                localStorage.setItem("token", data.token);
+                setUser(jwt_decode(data.token));
+
+                setOpen(false);
             })
             .catch(error => alert(error));
+            
     }
     return (
         <div className="login">

@@ -15,6 +15,8 @@ function App() {
   const [maxPages, setMaxpages] = useState("");
   const [selectedGame, setSelectedGame] = useState({});
   const [register,setRegister]= useState(false);
+  const [logedIn,setLogedIn]=useState(false);
+  const [user,setUser]=useState({});
 
   useEffect(() => {
 
@@ -42,7 +44,7 @@ function App() {
     <GlobalContext.Provider value={{
       selectedGame, setSelectedGame, dataPath, setDataPath, gamesArray,
       setGamesArray, nextPage, previousPage, maxPages, setMaxpages,
-      register,setRegister
+      register,setRegister,logedIn,setLogedIn,user,setUser
     }}>
       <div className="App">
         <Navbar />

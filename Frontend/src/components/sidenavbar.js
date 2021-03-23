@@ -8,13 +8,13 @@ import { useContext } from 'react';
 import { GlobalContext } from '../App';
 
 export default function Sidenavbar() {
-    const {setDataPath}=useContext(GlobalContext);
+    const {setDataPath,user,logedIn}=useContext(GlobalContext);
     return (
         <div className="side-nav">
-            <div className="user-loged-in">
+            <div className={logedIn?"user-loged-in":"userUndefined"}>
                 <div className="user-name">
-                    <img className="avatar" alt="Username" src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_640.png" />
-                    <h4>Username</h4>
+                    <div className="avatar" >{user.username?user.username.charAt(0).toUpperCase():"Z"}</div>
+                    <h4>{user.username?user.username:"Username"}</h4>
                 </div>
                 <hr />
                 <div className="options">
