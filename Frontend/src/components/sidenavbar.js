@@ -1,14 +1,20 @@
 import SettingsIcon from '@material-ui/icons/Settings';
+import Dialog from '@material-ui/core/Dialog';
 import { FaCrown } from 'react-icons/fa';
 import { GiQueenCrown } from 'react-icons/gi';
 import { MdComputer } from 'react-icons/md';
 import { IoGameController, IoLogoPlaystation, IoLogoXbox } from 'react-icons/io5';
 import './sidenavbar.css';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { GlobalContext } from '../App';
+import GameContainer from './gameContainer';
 
 export default function Sidenavbar() {
-    const {setDataPath,user,logedIn}=useContext(GlobalContext);
+    const {setDataPath,user,logedIn,playlist}=useContext(GlobalContext);
+    const [open, setOpen] = useState(false);
+    const handleClose = () => {
+        setOpen(false);
+    }
     return (
         <div className="side-nav">
             <div className={logedIn?"user-loged-in":"userUndefined"}>
@@ -17,7 +23,7 @@ export default function Sidenavbar() {
                     <h4>{user.username?user.username:"Username"}</h4>
                 </div>
                 <hr />
-                <div className="options">
+                <div className="options" onClick={()=>setOpen(true)}>
                     <IoGameController className="icon" />
                     <p>Playlist</p>
                 </div>
@@ -77,6 +83,10 @@ export default function Sidenavbar() {
                     <p>Strategy</p>
                 </div>
             </div>
+            <Dialog fullWidth={true} onClose={handleClose} open={open}>
+                <button className="close-modal" onClick={() => setOpen(false)}>x</button>
+                <GameContainer gamesArray={playlist} playlistDisplay={true} />
+            </Dialog>
         </div>
     )
 }

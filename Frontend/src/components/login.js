@@ -30,9 +30,10 @@ export default function Login({setOpen}) {
             })
             .then(data => {
                 
-                setLogedIn(true);
+                
                 localStorage.setItem("token", data.token);
                 setUser(jwt_decode(data.token));
+                setLogedIn(true);
 
                 setOpen(false);
             })

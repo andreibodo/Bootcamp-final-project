@@ -44,7 +44,7 @@ class UserController extends AbstractController
     {
         $userDataRaw = $repo->findByUsername($username);
 
-        $playlist = ["playlist" => []];
+        $playlist = [];
 
         foreach ($userDataRaw as $userData) {
             foreach ($userData->getPlaylist() as $playlistElement) {
@@ -77,7 +77,7 @@ class UserController extends AbstractController
                     $game["dlcs"][] = $dlc;
                 }
 
-                $playlist["playlist"][]=$game;
+                $playlist[]=$game;
             }
         }
 
@@ -96,6 +96,26 @@ class UserController extends AbstractController
         foreach($userRaw as $user){
             foreach($gameRaw as $game){
                 $user->addPlaylist($game);
+
+                $em->persist($user);
+                $em->flush();
+            }
+        }
+        
+        return new JsonResponse(["ok"]);
+    }
+
+    /**
+     * @Route("/playlist/remove/{username}/{gameId}", name="remove", methods={"GET"})
+     */
+    public function removeFromPlaylist(EntityManagerInterface $em,UserRepository $repo,GameRepository $gameRepo, $username,$gameId): Response
+    {
+        $userRaw = $repo->findByUsername($username);
+        $gameRaw= $gameRepo->findById($gameId);
+
+        foreach($userRaw as $user){
+            foreach($gameRaw as $game){
+                $user->removePlaylist($game);
 
                 $em->persist($user);
                 $em->flush();

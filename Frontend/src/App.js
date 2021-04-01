@@ -17,6 +17,27 @@ function App() {
   const [register,setRegister]= useState(false);
   const [logedIn,setLogedIn]=useState(false);
   const [user,setUser]=useState({});
+  const [playlist,setPlaylist]=useState([]);
+  const [toggleAction,setToggleAction]=useState(0);
+
+  useEffect(()=>{
+    if(logedIn){
+
+      fetch(`http://localhost:8888/playlist/${user.username}`, {headers:{'Authorization':`Bearer ${localStorage.getItem("token")}`}})
+      .then(response => {
+          if (!response.ok) {
+              throw new Error("Ha ido algo mal...");
+          }
+          return response.json();
+      })
+      .then(data => {
+          setPlaylist(data);
+      })
+      .catch(error => alert("Algo ha ido mal"));
+    }else{
+      setPlaylist([]);
+    }
+  },[logedIn,toggleAction]);
 
   useEffect(() => {
 
@@ -44,13 +65,14 @@ function App() {
     <GlobalContext.Provider value={{
       selectedGame, setSelectedGame, dataPath, setDataPath, gamesArray,
       setGamesArray, nextPage, previousPage, maxPages, setMaxpages,
-      register,setRegister,logedIn,setLogedIn,user,setUser
+      register,setRegister,logedIn,setLogedIn,user,setUser,playlist,setPlaylist,
+      toggleAction,setToggleAction
     }}>
       <div className="App">
         <Navbar />
         <div className="main-content">
           <Sidenavbar />
-          <GameContainer />
+          <GameContainer gamesArray={gamesArray} playlistDisplay={false} />
         </div>
       </div>
       <footer>

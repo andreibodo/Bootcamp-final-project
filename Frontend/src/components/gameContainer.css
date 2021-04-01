@@ -45,3 +45,15 @@
 .close-modal:hover{
     background-color: rgba(219, 97, 97, 0.9);
 }
+
+.previewLogedIn{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.playlistHandle{
+    position: absolute;
+    bottom: 2.5em;
+
+}
