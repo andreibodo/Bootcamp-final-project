@@ -38,3 +38,59 @@
 .dlcDescription{
     margin-top: 1em;
 }
+
+@media only screen and (max-width:1400px){
+
+    .game-images{
+        width: 100%;
+        height: 730px;
+    }
+
+    .clip{
+        width: 1000px;
+        height: 500px;
+    }
+}
+
+@media only screen and (max-width:950px){
+
+    .game-images{
+        width: 100%;
+        height: 500px;
+    }
+
+    .clip{
+        width: 700px;
+        height: 350px;
+    }
+}
+
+@media only screen and (max-width:700px){
+
+    .game-images{
+        width: 100%;
+        height: 250px;
+    }
+
+    .clip{
+        width: 350px;
+        height: 300px;
+    }
+
+    .eachDlc{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 1em;
+    }
+
+    .eachDlc>div>img{
+        width: 350px;
+    }
+
+    .dlcDescription{
+        font-size: .9em;
+        margin-right: .8em;
+        margin-left: .8em;
+    }
+}

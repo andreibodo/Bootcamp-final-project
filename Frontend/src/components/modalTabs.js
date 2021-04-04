@@ -78,7 +78,7 @@ export default function ModalTabs() {
                     </Carousel>
                 </TabPanel>
                 <TabPanel value={value} index={1}>
-                    <video src={selectedGame.clip} width="1600" height="700" controls="controls" />
+                    <video className="clip" src={selectedGame.clip} width="1600" height="700" controls="controls" />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
                     <div className="dlcContainer">
